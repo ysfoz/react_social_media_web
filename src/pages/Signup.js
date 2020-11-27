@@ -1,40 +1,40 @@
+import React from "react";
 import { Button, TextField, Grid, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useFormik } from 'formik'
+import { useFormik } from "formik";
+import firebase from "../firebase/firebase.utils";
 
-
-const styles = makeStyles({
-  // material/ui den alinan design lara ayrica stil vermek gerektiginde bu sekilde
+const stylesFunc = makeStyles({
   wrapper: {
-    marginTop: "5rem",
-    minHeight: "100vh",
-    display: "flex",
-    alignItems: "center",
+    marginTop: "10rem",
   },
 });
 
-export default function Signup() {
+function Signup() {
+  const formik = useFormik({
+    initialValues: {
+      displayName: "",
+      email: "",
+      password: "",
+    },
+    onSubmit: (values) => {
+      // alert(JSON.stringify(values, null, 2));
+      firebase.register(values.displayName, values.email, values.password);
+    },
+  });
+  const signupStyles = stylesFunc();
 
-    const formik = useFormik({
-        initialValues: {
-          displayName:'',
-          email: '',
-          password:'',
-        },
-        onSubmit: values => {
-          alert(JSON.stringify(values, null, 2));
-        },
-      });
-console.log(formik)
-  const signupStyle = styles(); // yukarda tanimlanan stile ulasabilmak icin bir degiskene atadik.
+  const handleGoogleButtonClick = () => {
+    firebase.useGoogleProvider();
+  };
+
   return (
-    <Container className={signupStyle.wrapper} maxWidth="sm">
+    <Container className={signupStyles.wrapper} maxWidth="sm">
       <form onSubmit={formik.handleSubmit}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <TextField
-              id="outlined-basic"
-              name='displayName'
+              name="displayName"
               label="Display Name"
               variant="outlined"
               fullWidth
@@ -44,32 +44,37 @@ console.log(formik)
           </Grid>
           <Grid item xs={12}>
             <TextField
-              id="outlined-basic"
-              name='email'
+              name="email"
               label="Email"
               variant="outlined"
               fullWidth
+              value={formik.values.email}
               onChange={formik.handleChange}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
-              id="outlined-basic"
-              name='password'
+              name="password"
               label="Password"
-              type='password'
               variant="outlined"
+              type="password"
               fullWidth
+              value={formik.values.password}
               onChange={formik.handleChange}
             />
           </Grid>
           <Grid item xs={12}>
-            <Button type='submit' variant="contained" color="primary" fullWidth>
-              Submit
+            <Button type="submit" variant="contained" color="primary" fullWidth>
+              Register
             </Button>
           </Grid>
           <Grid item xs={12}>
-            <Button variant="contained" color="primary" fullWidth>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={handleGoogleButtonClick}
+            >
               SignUp with Google
             </Button>
           </Grid>
@@ -78,3 +83,5 @@ console.log(formik)
     </Container>
   );
 }
+
+export default Signup;
