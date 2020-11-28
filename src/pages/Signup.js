@@ -6,9 +6,7 @@ import firebase from "../firebase/firebase.utils";
 import * as Yup from "yup";
 
 const signUpValidationSchema = Yup.object().shape({
-  displayName: Yup.string()
-  .required("Display Name is required!!")
-  .min(3, "your name is too short - it should be 3 chars at least!"),
+  displayName: Yup.string().required("Display Name is required!!"),
   email: Yup.string().email("Invalid Email").required("Email is required!!"),
   password: Yup.string()
     .required("No password provided.")
@@ -18,6 +16,7 @@ const signUpValidationSchema = Yup.object().shape({
 const stylesFunc = makeStyles({
   wrapper: {
     marginTop: "10rem",
+    height: "calc(100vh - 19.0625rem)",
   },
 });
 
