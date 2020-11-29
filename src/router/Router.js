@@ -5,6 +5,7 @@ import Signup from "../pages/Signup";
 import Signin from "../pages/Signin";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import UserDetail from '../pages/UserDetail'
 
 function AppRouter() {
   return (
@@ -13,6 +14,7 @@ function AppRouter() {
       <Switch>
         <Route path="/register" component={Signup} />
         <Route path="/login" component={Signin} />
+        <Route path="/user/:id" component={UserDetail} />
         <Route path="/" component={Main} exact/>
       </Switch>
       <Footer />
